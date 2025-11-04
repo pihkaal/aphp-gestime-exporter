@@ -1,0 +1,11 @@
+{
+  "manifest_version": 3,
+  "name": "gestime.aphp.fr exporter",
+  "version": "1.0.0",
+  "description": "TBD",
+  "action": {
+    "default_popup": "index.html"
+  },
+  "permissions": ["activeTab", "scripting"],
+  "host_permissions": ["http://gestime.aphp.fr/*"]
+}
