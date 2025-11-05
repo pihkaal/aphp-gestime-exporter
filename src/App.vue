@@ -1,9 +1,15 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import { extractData } from "@/utils/data";
 import { generateIcsCalendar } from "ts-ics";
+import { extractData } from "@/utils/data";
+import { isPlanningUrl } from "@/utils/url";
+import { onMounted } from "vue";
 
 const error = ref<string | null>(null);
+
+const onPlanningPage = ref(false);
+
+onMounted(async () => (onPlanningPage.value = await isPlanningUrl()));
 
 const downloadCalendar = async () => {
   error.value = null;
@@ -60,7 +66,7 @@ const downloadCalendar = async () => {
       </template>
 
       <div class="space-y-4">
-        <div class="space-y-2">
+        <div v-if="onPlanningPage" class="space-y-2">
           <UButton
             loading-auto
             label="Download Calendar"
@@ -78,6 +84,18 @@ const downloadCalendar = async () => {
             :title="error"
           />
         </div>
+
+        <UButton
+          v-else
+          label="Go to my planning"
+          icon="i-lucide-calendar"
+          size="lg"
+          block
+          color="secondary"
+          variant="subtle"
+          to="https://gestime.aphp.fr/planning/agent"
+          target="_blank"
+        />
 
         <UButton
           label="Import in Google Calendar"
