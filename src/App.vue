@@ -48,13 +48,13 @@ const downloadCalendar = async () => {
       <template #header>
         <div class="flex items-center justify-between">
           <h1 class="text-xl font-bold text-gray-900 dark:text-white">
-            Gestime APHP Export
+            APHP Gestime Exporter
           </h1>
 
           <div class="flex items-center gap-2">
             <UButton
               icon="i-lucide-github"
-              to="https://github.com/pihkaal/gestime-aphp-export"
+              to="https://github.com/pihkaal/aphp-gestime-exporter"
               target="_blank"
               color="neutral"
               variant="ghost"
@@ -69,7 +69,7 @@ const downloadCalendar = async () => {
         <div v-if="onPlanningPage" class="space-y-2">
           <UButton
             loading-auto
-            label="Download Calendar"
+            label="Télécharger le planning"
             icon="i-lucide-download"
             size="lg"
             block
@@ -87,7 +87,7 @@ const downloadCalendar = async () => {
 
         <UButton
           v-else
-          label="Go to my planning"
+          label="Aller à mon planning"
           icon="i-lucide-calendar"
           size="lg"
           block
@@ -98,7 +98,7 @@ const downloadCalendar = async () => {
         />
 
         <UButton
-          label="Import in Google Calendar"
+          label="Importer dans Google Calendar"
           icon="i-lucide-external-link"
           size="lg"
           block

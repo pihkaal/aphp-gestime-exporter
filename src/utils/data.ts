@@ -13,7 +13,7 @@ const makeIcsEvent = (
     month: number;
   } & WorkEvent,
 ): IcsEvent => ({
-  uid: `${data.year}-${data.month}-${data.day}-work@gestime-aphp-export`,
+  uid: `${data.year}-${data.month}-${data.day}-work@aphp-gestime-exporter`,
   summary: "Travail",
   stamp: { date: new Date() },
   start: {

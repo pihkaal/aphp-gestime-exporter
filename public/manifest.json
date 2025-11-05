@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "gestime.aphp.fr exporter",
+  "name": "APHP Gestime Exporter",
   "version": "1.0.0",
-  "description": "Export your Gestime work schedule to an ICS calendar file",
+  "description": "Exportez votre planning de travail Gestime vers un fichier calendrier ICS",
   "action": {
     "default_popup": "index.html",
     "default_popup_width": 450
