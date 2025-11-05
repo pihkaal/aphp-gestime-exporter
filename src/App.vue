@@ -1,88 +1,28 @@
 <script setup lang="ts">
 import AppCounter from "@/components/AppCounter.vue";
-import { ref } from "vue";
+import { extractData } from "@/utils/data";
+import { generateIcsCalendar } from "ts-ics";
 
-type WorkEvent = {
-  day: number;
-  start: { hours: number; minutes: number };
-  end: { hours: number; minutes: number };
-};
-
-const data = ref<{
-  events: WorkEvent[];
-  month: number;
-  year: number;
-}>();
-
-async function extractData() {
-  try {
-    const [tab] = await chrome.tabs.query({
-      active: true,
-      currentWindow: true,
-    });
-    if (!tab?.id) {
-      console.error("No active tab found");
-      return null;
-    }
-
-    const urlMatch = tab.url?.match(/\/(\d{2})-(\d{4})$/);
-    if (!urlMatch) {
-      console.error("Could not extract month and year from URL");
-      return null;
-    }
-
-    const [eventsQuery] = await chrome.scripting.executeScript({
-      target: { tabId: tab.id },
-      func: () => {
-        const trs = document.querySelectorAll("#clearfix-individuel table tr");
-
-        const events: WorkEvent[] = [];
-
-        for (const tr of trs) {
-          const tds = tr.querySelectorAll("td");
-
-          const dateText = tds[0]?.textContent?.trim() ?? "";
-          const dateMatch = dateText.match(/^[A-Z][a-z]{2}\s+(\d{2})$/);
-          if (!dateMatch) continue;
-
-          const workText = tds[1]?.textContent?.trim() ?? "";
-          const hoursMatch = workText.match(/^(\d+):(\d+) - (\d+):(\d+)$/);
-          if (!hoursMatch) continue;
-
-          events.push({
-            day: parseInt(dateMatch[1]!),
-            start: {
-              hours: parseInt(hoursMatch[1]!),
-              minutes: parseInt(hoursMatch[2]!),
-            },
-            end: {
-              hours: parseInt(hoursMatch[3]!),
-              minutes: parseInt(hoursMatch[4]!),
-            },
-          });
-        }
-
-        return events;
-      },
-    });
-    if (!eventsQuery?.result) return null;
-
-    data.value = {
-      year: parseInt(urlMatch[2]!),
-      month: parseInt(urlMatch[1]!),
-      events: eventsQuery.result,
-    };
-
-    return {
-      year: parseInt(urlMatch[2]!),
-      month: parseInt(urlMatch[1]!),
-      events: eventsQuery.result,
-    };
-  } catch (error) {
-    console.error("Error getting elements data:", error);
-    return null;
+const downloadCalendar = async () => {
+  const calendar = await extractData();
+  if (!calendar) {
+    // TODO: report error
+    return;
   }
-}
+
+  const icsContent = generateIcsCalendar(calendar.data);
+
+  const blob = new Blob([icsContent], { type: "text/calendar;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  try {
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = calendar.name;
+    link.click();
+  } finally {
+    URL.revokeObjectURL(url);
+  }
+};
 </script>
 
 <template>
@@ -90,11 +30,7 @@ async function extractData() {
     <h1>Gestime APHP Export</h1>
 
     <div class="query-section">
-      <button @click="extractData">Extract</button>
-    </div>
-
-    <div>
-      {{ JSON.stringify(data) }}
+      <button @click="downloadCalendar">Download calendar</button>
     </div>
 
     <hr />

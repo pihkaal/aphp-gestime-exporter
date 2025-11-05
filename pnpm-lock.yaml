@@ -11,6 +11,9 @@ importers:
       pinia:
         specifier: ^3.0.3
         version: 3.0.3(typescript@5.9.3)(vue@3.5.22(typescript@5.9.3))
+      ts-ics:
+        specifier: ^2.4.0
+        version: 2.4.0
       vue:
         specifier: ^3.5.22
         version: 3.5.22(typescript@5.9.3)
@@ -801,6 +804,9 @@ packages:
     resolution: {integrity: sha512-TAcgQh2sSkykPRWLrdyy2AiceMckNf5loITqXxFI5VuQjS5tSuw3WlwdN8qv8vzjLAUTvYaH/mVjSFpbkFbpTg==}
     cpu: [x64]
     os: [win32]
+
+  '@standard-schema/spec@1.0.0':
+    resolution: {integrity: sha512-m2bOd0f2RT9k8QJx1JN85cZYyH1RqFBdlwtkSlf4tBDYLCiiZnv1fIIwacK6cqwXavOydf0NPToMQgpKq+dVlA==}
 
   '@tsconfig/node22@22.0.2':
     resolution: {integrity: sha512-Kmwj4u8sDRDrMYRoN9FDEcXD8UpBSaPQQ24Gz+Gamqfm7xxn+GBR7ge/Z7pK8OXNGyUzbSwJj+TH6B+DS/epyA==}
@@ -2046,6 +2052,9 @@ packages:
     peerDependencies:
       typescript: '>=4.8.4'
 
+  ts-ics@2.4.0:
+    resolution: {integrity: sha512-Tguo+7W/swxTw8/Fxv4zPBqiHw/i1ohg0aCWeY50miwdwFGC7TCWcOUuqaeag5EdnaX57zn1qrqERsc4A+4j1A==}
+
   tslib@2.8.1:
     resolution: {integrity: sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w==}
 
@@ -2885,6 +2894,8 @@ snapshots:
 
   '@rollup/rollup-win32-x64-msvc@4.52.5':
     optional: true
+
+  '@standard-schema/spec@1.0.0': {}
 
   '@tsconfig/node22@22.0.2': {}
 
@@ -4196,6 +4207,10 @@ snapshots:
   ts-api-utils@2.1.0(typescript@5.9.3):
     dependencies:
       typescript: 5.9.3
+
+  ts-ics@2.4.0:
+    dependencies:
+      '@standard-schema/spec': 1.0.0
 
   tslib@2.8.1:
     optional: true
