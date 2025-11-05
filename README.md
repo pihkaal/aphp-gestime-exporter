@@ -13,6 +13,11 @@ Planning exporter for [APHP Gestime](https://gestime.aphp.fr). Export your plann
    4. Choose the folder where you extracted the files
    5. Done! Additionally, you can pin the extension (click on the puzzle icon in the browser toolbar)
 
+> [!WARNING]
+> Do not move the folder were you extracted the extension, otherwhise it will stop working.
+> This limitation is due to the extension not being published to the Chrome Webstore.
+
+
 ## References
 
 - [APHP Logo](https://www.facebook.com/photo/?fbid=1057890036443767&set=a.589369969962445)

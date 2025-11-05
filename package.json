@@ -13,6 +13,7 @@
     "preview": "vite preview",
     "build-only": "vite build",
     "type-check": "vue-tsc --build",
+    "zip": "pnpm build && cp -r dist aphp-gestime-exporter && zip -r aphp-gestime-exporter.zip aphp-gestime-exporter && rm -rf aphp-gestime-exporter/",
     "lint:oxlint": "oxlint . --fix -D correctness --ignore-path .gitignore",
     "lint:eslint": "eslint . --fix --cache",
     "lint": "run-s lint:*",
