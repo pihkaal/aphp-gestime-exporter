@@ -4,7 +4,8 @@ import { ref } from "vue";
 
 type WorkEvent = {
   day: number;
-  work: boolean;
+  start: { hours: number; minutes: number };
+  end: { hours: number; minutes: number };
 };
 
 const data = ref<{
@@ -25,7 +26,7 @@ async function extractData() {
     }
 
     const urlMatch = tab.url?.match(/\/(\d{2})-(\d{4})$/);
-    if (!urlMatch?.[1] || !urlMatch[2]) {
+    if (!urlMatch) {
       console.error("Could not extract month and year from URL");
       return null;
     }
@@ -39,16 +40,25 @@ async function extractData() {
 
         for (const tr of trs) {
           const tds = tr.querySelectorAll("td");
-          const dateText = tds[0]?.textContent?.trim() ?? "";
 
+          const dateText = tds[0]?.textContent?.trim() ?? "";
           const dateMatch = dateText.match(/^[A-Z][a-z]{2}\s+(\d{2})$/);
           if (!dateMatch) continue;
 
           const workText = tds[1]?.textContent?.trim() ?? "";
+          const hoursMatch = workText.match(/^(\d+):(\d+) - (\d+):(\d+)$/);
+          if (!hoursMatch) continue;
 
           events.push({
             day: parseInt(dateMatch[1]!),
-            work: /^\d+:\d+ - \d+:\d+$/.test(workText),
+            start: {
+              hours: parseInt(hoursMatch[1]!),
+              minutes: parseInt(hoursMatch[2]!),
+            },
+            end: {
+              hours: parseInt(hoursMatch[3]!),
+              minutes: parseInt(hoursMatch[4]!),
+            },
           });
         }
 
@@ -58,15 +68,15 @@ async function extractData() {
     if (!eventsQuery?.result) return null;
 
     data.value = {
+      year: parseInt(urlMatch[2]!),
+      month: parseInt(urlMatch[1]!),
       events: eventsQuery.result,
-      month: parseInt(urlMatch[1]),
-      year: parseInt(urlMatch[2]),
     };
 
     return {
+      year: parseInt(urlMatch[2]!),
+      month: parseInt(urlMatch[1]!),
       events: eventsQuery.result,
-      month: parseInt(urlMatch[1]),
-      year: parseInt(urlMatch[2]),
     };
   } catch (error) {
     console.error("Error getting elements data:", error);
