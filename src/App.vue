@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import AppCounter from "@/components/AppCounter.vue";
 import { extractData } from "@/utils/data";
 import { generateIcsCalendar } from "ts-ics";
 
@@ -32,10 +31,6 @@ const downloadCalendar = async () => {
     <div class="query-section">
       <button @click="downloadCalendar">Download calendar</button>
     </div>
-
-    <hr />
-
-    <AppCounter />
   </div>
 </template>
 
