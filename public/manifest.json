@@ -2,9 +2,10 @@
   "manifest_version": 3,
   "name": "gestime.aphp.fr exporter",
   "version": "1.0.0",
-  "description": "TBD",
+  "description": "Export your Gestime work schedule to an ICS calendar file",
   "action": {
-    "default_popup": "index.html"
+    "default_popup": "index.html",
+    "default_popup_width": 450
   },
   "permissions": ["activeTab", "scripting"],
   "host_permissions": ["http://gestime.aphp.fr/*"]

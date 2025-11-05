@@ -50,25 +50,23 @@ const makeIcsCalendar = (events: IcsEvent[]): IcsCalendar => ({
 export async function extractData(): Promise<{
   name: string;
   data: IcsCalendar;
-} | null> {
+}> {
+  const [tab] = await chrome.tabs.query({
+    active: true,
+    currentWindow: true,
+  });
+  if (!tab?.id) {
+    throw new Error("URL incorrecte");
+  }
+
+  const urlMatch = tab.url?.match(/\/(\d{2})-(\d{4})$/);
+  if (!urlMatch) {
+    throw new Error("URL incorrecte");
+  }
+  const year = parseInt(urlMatch[2]!);
+  const month = parseInt(urlMatch[1]!);
+
   try {
-    const [tab] = await chrome.tabs.query({
-      active: true,
-      currentWindow: true,
-    });
-    if (!tab?.id) {
-      console.error("No active tab found");
-      return null;
-    }
-
-    const urlMatch = tab.url?.match(/\/(\d{2})-(\d{4})$/);
-    if (!urlMatch) {
-      console.error("Could not extract month and year from URL");
-      return null;
-    }
-    const year = parseInt(urlMatch[2]!);
-    const month = parseInt(urlMatch[1]!);
-
     const [eventsQuery] = await chrome.scripting.executeScript({
       target: { tabId: tab.id },
       func: () => {
@@ -105,7 +103,7 @@ export async function extractData(): Promise<{
         return events;
       },
     });
-    if (!eventsQuery?.result) return null;
+    if (!eventsQuery?.result) throw undefined;
 
     return {
       name: `gestime-${urlMatch[1]}-${urlMatch[2]}.ics`,
@@ -115,8 +113,9 @@ export async function extractData(): Promise<{
         ),
       ),
     };
-  } catch (error) {
-    console.error("Error getting elements data:", error);
-    return null;
+  } catch {
+    throw new Error(
+      "Impossible d'extraires les données, contactez `hello@pihkaal.me`",
+    );
   }
 }
