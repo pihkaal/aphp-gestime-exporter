@@ -8,8 +8,8 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "run-s type-check build-only copy:manifest",
-    "copy:manifest": "cp public/manifest.json dist/",
+    "build": "run-s type-check build-only copy:public",
+    "copy:public": "cp public/* dist/",
     "preview": "vite preview",
     "test:unit": "vitest",
     "test:e2e": "playwright test",
